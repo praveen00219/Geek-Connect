@@ -120,11 +120,13 @@ export default function PostCard({ singlePost }) {
           {singlePost.reactions?.likes + (isLiked ? 1 : 0)} Likes
         </Typography>
         <Link to={`/post/${singlePost.id}`} style={{ marginLeft: "auto" }}>
-          <span style={{ marginRight: "15px" }}>{singlePost.views} Views</span>
+          <small style={{ marginRight: "15px" }}>
+            {singlePost.views} Views
+          </small>
           <IconButton>
             <CommentIcon />
           </IconButton>
-          <span>Comments</span>
+          <small>Comments</small>
         </Link>
       </CardActions>
     </Card>
