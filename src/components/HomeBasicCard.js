@@ -27,7 +27,11 @@ export default function HomeBasicCard() {
             </Typography>
             <Typography variant="body2">Love Techno. ❣️</Typography>
           </div>
-          <img src={Dev} style={{ height: "3rem" }} alt="dev tool image" />
+          <img
+            src={Dev}
+            style={{ height: "3rem" }}
+            alt="Developer working on a laptop"
+          />
         </div>
       </CardContent>
     </Card>
