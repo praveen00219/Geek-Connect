@@ -1,6 +1,6 @@
 # GeekConnect
 
-GeekConnect is a modern social media front-end application built using **React**, **Redux**, and **Material UI**, leveraging the **[dummyapi.io](https://dummyapi.io/)** API. This project allows users to interact with posts, like, comment, explore trending hashtags, and view user profiles in a responsive and user-friendly interface.
+GeekConnect is a modern social media front-end application built using **React**, **Redux**, and **Material UI**, leveraging the **[DummyJSON API](https://dummyjson.com/)** API. This project allows users to interact with posts, like, comment, explore trending hashtags, and view user profiles in a responsive and user-friendly interface.
 
 ## Features
 
@@ -16,7 +16,7 @@ GeekConnect is a modern social media front-end application built using **React**
 
 - **Frontend:** React, Redux, Material UI
 - **State Management:** Redux Toolkit
-- **API:** [dummyapi.io](https://dummyapi.io/)
+- **API:** [DummyJSON API](https://dummyjson.com/)
 - **Styling:** CSS & Material UI
 
 ## Installation & Setup
@@ -30,7 +30,7 @@ GeekConnect is a modern social media front-end application built using **React**
    npm install
    npm start
 
-   Note: [before the start project Create a .env file in the root directory and add your dummyapi.io API key : (REACT_APP_API_KEY=your_dummyapi_io_key) ]
+   Note: [before the start project Create a .env file in the root directory and add your DummyJSON API API key : (REACT_APP_API_KEY=your_dummyapi_io_key) ]
    ```
 
 ## Usage
@@ -45,7 +45,7 @@ GeekConnect is a modern social media front-end application built using **React**
 ## Deployment / Live Demo
 
 - This application deployed using Netlify.
-- You can view the live demo : [here]()
+- You can view the live demo : [here](https://geekconnect-prvn.netlify.app/)
 
 ## Author
 
