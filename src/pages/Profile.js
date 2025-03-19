@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PostList from "../components/PostList";
 import ProfileDetail from "../components/ProfileDetail";
-import axios from "axios"; // Replace dummyapi with axios
+import axios from "axios";
 
 const Profile = () => {
   const { id } = useParams();
