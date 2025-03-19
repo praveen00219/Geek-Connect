@@ -1,52 +1,71 @@
-import { Container, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import PostList from '../components/PostList';
-import ProfileDetail from '../components/ProfileDetail';
-import { dummyapi } from '../util';
+import { Container, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import PostList from "../components/PostList";
+import ProfileDetail from "../components/ProfileDetail";
+import axios from "axios"; // Replace dummyapi with axios
 
 const Profile = () => {
   const { id } = useParams();
-  
   const [detail, setDetail] = useState({});
   const [posts, setPosts] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      const response = await dummyapi.get(`/user/${id}`);
-      const data = response.data;
-      setDetail(data);
-    })();
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(`https://dummyjson.com/users/${id}`);
+        setDetail(response.data);
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
 
-    (async () => {
-      const response = await dummyapi.get(`/user/${id}/post`);
-      const data = response.data.data;
-      setPosts(data);
-      setPageNumber(1);
-    })();
+    const fetchPosts = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `https://dummyjson.com/posts?userId=${id}&limit=10&skip=0`
+        );
+        setPosts(response.data.posts);
+        setPageNumber(1);
+      } catch (error) {
+        console.error("Error fetching user posts:", error);
+      }
+      setLoading(false);
+    };
+
+    fetchUser();
+    fetchPosts();
   }, [id]);
 
-
-
   const loadMore = async () => {
-    const response = await dummyapi.get(`/user/${id}/post?page=${pageNumber}`);
-    const postsArr = response?.data?.data ?? [];
-    setPosts(oldPosts => [...oldPosts, ...postsArr]);
-    setPageNumber(page => page + 1);
-  }
-
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `https://dummyjson.com/posts?userId=${id}&limit=10&skip=${
+          pageNumber * 10
+        }`
+      );
+      setPosts((oldPosts) => [...oldPosts, ...response.data.posts]);
+      setPageNumber((page) => page + 1);
+    } catch (error) {
+      console.error("Error loading more posts:", error);
+    }
+    setLoading(false);
+  };
 
   return (
-    <>
-      <Container>
-        <ProfileDetail detail={detail} />
-        <hr />
-        <Typography variant="h6" align="center" mt={4}>All Posts</Typography>
-        <PostList posts={posts} loadMore={loadMore} />
-      </Container>
-    </>
-  )
-}
+    <Container>
+      <ProfileDetail detail={detail} />
+      <hr />
+      <Typography variant="h6" align="center" mt={4}>
+        All Posts
+      </Typography>
+      <PostList posts={posts} loadMore={loadMore} loading={loading} />
+    </Container>
+  );
+};
 
-export default Profile
+export default Profile;

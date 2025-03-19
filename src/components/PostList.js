@@ -4,6 +4,7 @@ import PostCard from "./PostCard";
 import Spinner from "../assets/logo_dark.png";
 
 const PostList = (props) => {
+  // console.log("posts :", props.posts);
   return (
     <Stack spacing={2} mt={4} mb={4} alignItems="center">
       {props.posts?.map((singlePost, idx) => (

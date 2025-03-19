@@ -1,69 +1,87 @@
-import * as React from 'react';
-import { Chip, Stack, Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography } from '@mui/material';
-import { red } from '@mui/material/colors';
-import { Favorite as FavoriteIcon, Comment as CommentIcon } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { likePost, dislikePost } from '../slice';
+import * as React from "react";
+import {
+  Chip,
+  Stack,
+  Card,
+  CardHeader,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Avatar,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import { red } from "@mui/material/colors";
+import {
+  Favorite as FavoriteIcon,
+  Comment as CommentIcon,
+} from "@mui/icons-material";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { likePost, dislikePost } from "../slice";
 
-export default function PostCard(props) {
+export default function PostCard({ singlePost }) {
   const dispatch = useDispatch();
-  const isLiked = useSelector(state => state.likedPosts.some(e => e === props.singlePost?.id));
-  
-  const likeDislikePost = _ => {
-    if(isLiked) {
-      dispatch(dislikePost(props.singlePost?.id));
+  const isLiked = useSelector((state) =>
+    state.likedPosts.includes(singlePost.id)
+  );
+
+  const likeDislikePost = () => {
+    if (isLiked) {
+      dispatch(dislikePost(singlePost.id));
     } else {
-      dispatch(likePost(props.singlePost?.id));
+      dispatch(likePost(singlePost.id));
     }
-  }
+  };
 
   return (
     <Card sx={{ maxWidth: 520 }}>
       <CardHeader
         avatar={
-          <Link to={`/profile/${props.singlePost?.owner?.id}`}>
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={props.singlePost?.owner?.picture} />
+          <Link to={`/profile/${singlePost.userId}`}>
+            <Avatar sx={{ bgcolor: red[500] }} aria-label="user">
+              {singlePost.userId}
+            </Avatar>
           </Link>
         }
         title={
-          <Link to={`/profile/${props.singlePost?.owner?.id}`}>
-            {props.singlePost?.owner?.firstName} {props.singlePost?.owner?.lastName}
+          <Link to={`/profile/${singlePost.userId}`}>
+            User {singlePost.userId}
           </Link>
         }
-        subheader={props.singlePost?.publishDate}
+        subheader={new Date(singlePost.publishDate).toDateString()}
       />
       <CardMedia
         component="img"
-        image={props.singlePost?.image}
-        alt="Paella dish"
+        image={singlePost.image || singlePost.thumbnail}
+        alt="Post"
         onDoubleClick={likeDislikePost}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {props.singlePost?.text}
+          {singlePost.body}
         </Typography>
-
         <Stack direction="row" spacing={1} mt={1}>
-          {props.singlePost?.tags?.map((singleTag, idx) => {
-            return (
-              <Link key={idx} to={`/search?q=${singleTag}`}>
-                <Chip label={`#${singleTag}`} variant="outlined" size="small" style={{ textTransform: "capitalize" }} onClick={() => { }} />
-              </Link>
-            );
-          })}
+          {singlePost.tags?.map((tag, idx) => (
+            <Link key={idx} to={`/search?q=${tag}`}>
+              <Chip
+                label={`#${tag}`}
+                variant="outlined"
+                size="small"
+                style={{ textTransform: "capitalize" }}
+              />
+            </Link>
+          ))}
         </Stack>
-
-
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites" onClick={likeDislikePost}>
-          <FavoriteIcon style={{color: isLiked? "red": "inherit"}} />
+          <FavoriteIcon style={{ color: isLiked ? "red" : "inherit" }} />
         </IconButton>
         <Typography variant="caption" display="block" gutterBottom>
-          {props.singlePost?.likes + (isLiked ? 1 : 0)} Likes
+          {singlePost.reactions?.likes ?? 0} Likes
         </Typography>
-        <Link to={`/post/${props.singlePost?.id}`} style={{ marginLeft: "auto" }}>
+        <Link to={`/post/${singlePost.id}`} style={{ marginLeft: "auto" }}>
           <IconButton>
             <CommentIcon />
           </IconButton>
