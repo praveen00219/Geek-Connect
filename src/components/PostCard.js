@@ -34,6 +34,12 @@ export default function PostCard({ singlePost }) {
     }
   };
 
+  // Fallback Image using Lorem Picsum
+  const imageSrc =
+    singlePost.image ||
+    singlePost.thumbnail ||
+    `https://picsum.photos/500/300?random=${singlePost.id}`;
+
   return (
     <Card sx={{ maxWidth: 520 }}>
       <CardHeader
@@ -53,7 +59,7 @@ export default function PostCard({ singlePost }) {
       />
       <CardMedia
         component="img"
-        image={singlePost.image || singlePost.thumbnail}
+        image={imageSrc}
         alt="Post"
         onDoubleClick={likeDislikePost}
       />
